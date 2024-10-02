@@ -3,7 +3,7 @@
     padding: 0;
     box-sizing: border-box;
 }
-h2{
+h4{
     text-align: center;
 }
 body {
@@ -45,6 +45,7 @@ body {
     height: 100%;
 }
 .corazon {
+    padding-top: 10px;
     width: 40px; /* Ajusta el tamaño del corazón */
     height: auto; /* Mantiene la proporción de la imagen */
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transiciones para transformaciones y sombras */
@@ -53,6 +54,10 @@ body {
 .corazon:hover {
     transform: scale(1.1); /* Aumenta el tamaño al pasar el mouse */
     box-shadow: 0px 4px 20px rgba(255, 0, 0, 0.5); /* Sombra más intensa al pasar el mouse */
+}
+.Lux{
+    width: 100px;
+    border-radius: 50%;
 }
 
 .box {
