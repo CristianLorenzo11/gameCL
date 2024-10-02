@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego LuxGym</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="info"><h1>3 Años LuxGym</h1> </div>
+    <div class="info">
+       
+        <p> <img src="corazon.png" alt="Logo" class="corazon"><h2 id="lives">5 </h2>  </p>
+        
+    </div>
+    <div class="container">
+        <div id="game-board"></div>
+    </div>
+
+<!-- Modal de fin de juego (Has perdido) -->
+<div id="game-over-modal" class="modal">
+    <div class="modal-content">
+        <img src="Designer_-_2024-10-02T181840.114-removebg-preview.png" alt="Logo" class="modal-logo"> <!-- Aquí agregas el logo -->
+        <h2>¡Has perdido!</h2>
+        <p>Te quedaste sin vidas.</p>
+        <button id="restart-button">Volver a jugar</button>
+    </div>
+</div>
+
+<!-- Modal de victoria (Has ganado) -->
+<div id="game-win-modal" class="modal">
+    <div class="modal-content">
+        <img src="Designer_-_2024-10-02T192813.952-removebg-preview.png" alt="Logo" class="modal-logo"> <!-- Aquí agregas el logo -->
+        <h2>¡Felicidades!</h2>
+        <p>¡GANASTE!</p>
+        <button id="win-restart-button">Volver a jugar</button>
+    </div>
+</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
