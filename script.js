@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const gameWinModal = document.getElementById('game-win-modal');
     const restartButton = document.getElementById('restart-button');
     const winRestartButton = document.getElementById('win-restart-button');
-    let lives = 16;  // Vidas iniciales
+    let lives = 10;  // Vidas iniciales
     const totalBoxes = 20;
     const imageCount = 5;
     let foundLuxGym = 0;  // Contador de cuadros LuxGym encontrados
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         gameBoard.innerHTML = ''; // Limpiar el tablero
         selectedBoxes = [];
         foundLuxGym = 0;
-        lives = 16;
+        lives = 10;
         livesDisplay.textContent = lives;
         gameOver = false;
 
