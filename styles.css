@@ -32,7 +32,7 @@ body {
 .luxgym-image {
     width: 100%; /* Ocupa todo el ancho del cuadro */
     height: 100%; /* Ocupa toda la altura del cuadro */
-    object-fit: cover; /* Mantiene la proporción y recorta si es necesario */
+   
 }
 
 
@@ -63,7 +63,7 @@ body {
     font-size: 2rem;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease; /* Transiciones para el fondo y transformación */
-    border: #333 solid 1px; /* Borde */
+    
     border-radius: 10px; /* Bordes redondeados */
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 5.3); /* Sombra */
 }
@@ -196,10 +196,6 @@ img {
     .modal-content, .modal1-content {
         padding: 5px;
     }
-    .luxgym-image {
-        width: 100%; /* Ocupa todo el ancho del cuadro */
-        height: 100%; /* Ocupa toda la altura del cuadro */
-        object-fit: cover; /* Mantiene la proporción y recorta si es necesario */
-    }
+    
 }
 
