@@ -229,11 +229,27 @@ img {
 
 .modal-content {
     background-color: rgba(240, 226, 29, 0.966); /* Fondo blanco semitransparente */
-    padding: 40px; /* Espaciado interno */
+    padding: 20px; /* Espaciado interno, ajustado para móviles */
     border-radius: 15px; /* Bordes redondeados */
     text-align: center; /* Centra el texto */
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.6); /* Sombra suave */
     max-width: 90%; /* Limita el ancho máximo del contenido */
     max-height: 90%; /* Limita la altura máxima del contenido */
     overflow: auto; /* Permite el desplazamiento si el contenido es demasiado grande */
+    width: 80%; /* Ajustar ancho a 80% para mejor visualización en móviles */
+    height: auto; /* Dejar que la altura se ajuste al contenido */
+}
+
+/* Para asegurar que el texto y botones también sean responsivos */
+.modal-content h2 {
+    font-size: 1.5rem; /* Tamaño de fuente adaptable */
+}
+
+.modal-content p {
+    font-size: 1rem; /* Tamaño de fuente adaptable */
+}
+
+#start-game-button {
+    padding: 10px 20px; /* Tamaño del botón */
+    font-size: 1rem; /* Tamaño de fuente del botón */
 }
