@@ -144,7 +144,15 @@ img {
     border-radius: 10px;
     text-align: center;
 }
-
+.jugar{
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #fc2a05;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 #restart-button, #win-restart-button {
     margin-top: 20px;
     padding: 10px 20px;
@@ -194,13 +202,38 @@ img {
         grid-template-columns: repeat(5, 1fr); /* 3 columnas en pantallas muy pequeñas */
     }
 
-    .modal-logo {
-        width: 100px;
+    .modal-logo,
+    .modal1-logo {
+        width: 200px;
     }
 
     .modal-content, .modal1-content {
         padding: 5px;
+        
     }
     
 }
 
+.modalinicio {
+    display: flex; /* Cambiar a flex para centrar el contenido */
+    position: fixed; /* Fija el modal en la pantalla */
+    top: 0; /* Alineado a la parte superior */
+    left: 0; /* Alineado a la izquierda */
+    width: 100vw; /* Ancho completo de la ventana */
+    height: 100vh; /* Altura completa de la ventana */
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro con opacidad */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    z-index: 999; /* Asegura que el modal esté en la parte superior */
+}
+
+.modal-content {
+    background-color: rgba(240, 226, 29, 0.966); /* Fondo blanco semitransparente */
+    padding: 40px; /* Espaciado interno */
+    border-radius: 15px; /* Bordes redondeados */
+    text-align: center; /* Centra el texto */
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.6); /* Sombra suave */
+    max-width: 90%; /* Limita el ancho máximo del contenido */
+    max-height: 90%; /* Limita la altura máxima del contenido */
+    overflow: auto; /* Permite el desplazamiento si el contenido es demasiado grande */
+}

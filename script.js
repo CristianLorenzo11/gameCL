@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const gameWinModal = document.getElementById('game-win-modal');
     const restartButton = document.getElementById('restart-button');
     const winRestartButton = document.getElementById('win-restart-button');
-    let lives = 10;  // Vidas iniciales
+    let lives = 16;  // Vidas iniciales
     const totalBoxes = 20;
     const imageCount = 5;
     let foundLuxGym = 0;  // Contador de cuadros LuxGym encontrados
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         gameBoard.innerHTML = ''; // Limpiar el tablero
         selectedBoxes = [];
         foundLuxGym = 0;
-        lives = 10;
+        lives = 16;
         livesDisplay.textContent = lives;
         gameOver = false;
 
@@ -104,3 +104,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Inicializar el juego por primera vez
     initGame();
 });
+// Esperar a que el contenido se cargue completamente
+window.onload = function() {
+    // Mostrar el modal de bienvenida
+    const welcomeModal = document.getElementById('welcome-modal');
+    welcomeModal.style.display = 'flex'; // Cambiar a 'flex' para mostrar el modal
+};
+
+// Manejar el evento de clic en el botón "Jugar"
+document.getElementById('start-game-button').addEventListener('click', function() {
+    const welcomeModal = document.getElementById('welcome-modal');
+    welcomeModal.style.display = 'none'; // Ocultar el modal de bienvenida
+    startGame(); // Iniciar el juego (si tienes una función para iniciar el juego)
+});
+
+// Aquí puedes definir la función startGame si es necesario
+function startGame() {
+    // Lógica para iniciar el juego
+    console.log("El juego ha comenzado");
+}
