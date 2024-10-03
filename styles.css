@@ -214,42 +214,73 @@ img {
     
 }
 
+/* Estilos generales para dispositivos grandes */
 .modalinicio {
-    display: flex; /* Cambiar a flex para centrar el contenido */
-    position: fixed; /* Fija el modal en la pantalla */
-    top: 0; /* Alineado a la parte superior */
-    left: 0; /* Alineado a la izquierda */
-    width: 100vw; /* Ancho completo de la ventana */
-    height: 100vh; /* Altura completa de la ventana */
-    background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro con opacidad */
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente */
-    z-index: 999; /* Asegura que el modal esté en la parte superior */
+    display: flex; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh; 
+    background-color: rgba(0, 0, 0, 0.8); 
+    justify-content: center; 
+    align-items: center; 
+    z-index: 999; 
 }
 
 .modal-content {
-    background-color: rgba(240, 226, 29, 0.966); /* Fondo blanco semitransparente */
-    padding: 20px; /* Espaciado interno, ajustado para móviles */
-    border-radius: 15px; /* Bordes redondeados */
-    text-align: center; /* Centra el texto */
-    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.6); /* Sombra suave */
-    max-width: 90%; /* Limita el ancho máximo del contenido */
-    max-height: 90%; /* Limita la altura máxima del contenido */
-    overflow: auto; /* Permite el desplazamiento si el contenido es demasiado grande */
-    width: 80%; /* Ajustar ancho a 80% para mejor visualización en móviles */
-    height: auto; /* Dejar que la altura se ajuste al contenido */
+    background-color: rgba(240, 226, 29, 0.966); 
+    padding: 40px; 
+    border-radius: 15px; 
+    text-align: center; 
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.6); 
+    max-width: 90%; 
+    max-height: 90%; 
+    overflow: auto; 
+    width: 80%; 
+    height: auto; 
 }
 
-/* Para asegurar que el texto y botones también sean responsivos */
-.modal-content h2 {
-    font-size: 1.5rem; /* Tamaño de fuente adaptable */
+/* Media Queries para dispositivos móviles */
+@media (max-width: 768px) { /* Para tablets y pantallas más pequeñas */
+    .modal-content {
+        padding: 20px; /* Menos padding para dispositivos más pequeños */
+        max-width: 95%; /* Aumentar el ancho máximo para pantallas más pequeñas */
+        width: 90%; /* Ajustar el ancho para ser más responsivo */
+        border-radius: 10px; /* Bordes más redondeados */
+    }
+
+    .modal-content h2 {
+        font-size: 1.5rem; /* Tamaño de fuente más pequeño para el encabezado */
+    }
+
+    .modal-content p {
+        font-size: 0.9rem; /* Tamaño de fuente más pequeño para el párrafo */
+    }
+
+    #start-game-button {
+        padding: 8px 16px; /* Tamaño del botón más pequeño */
+        font-size: 0.9rem; /* Tamaño de fuente del botón */
+    }
 }
 
-.modal-content p {
-    font-size: 1rem; /* Tamaño de fuente adaptable */
-}
+@media (max-width: 480px) { /* Para smartphones */
+    .modal-content {
+        padding: 15px; /* Menor padding para smartphones */
+        width: 95%; /* Ajustar aún más el ancho */
+        max-width: 100%; /* Asegurar que el contenido no se desborde */
+    }
 
-#start-game-button {
-    padding: 10px 20px; /* Tamaño del botón */
-    font-size: 1rem; /* Tamaño de fuente del botón */
+    .modal-content h2 {
+        font-size: 1.3rem; /* Tamaño de fuente más pequeño para el encabezado */
+    }
+
+    .modal-content p {
+        font-size: 1.2rem; /* Tamaño de fuente más pequeño para el párrafo */
+    }
+
+    #start-game-button {
+        padding: 6px 12px; /* Tamaño del botón más pequeño */
+        font-size: 0.85rem; /* Tamaño de fuente del botón */
+    }
 }
