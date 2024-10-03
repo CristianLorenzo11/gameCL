@@ -16,13 +16,13 @@
     <div class="container">
         <div id="game-board"></div>
     </div>
-
 <!-- Modal de fin de juego (Has perdido) -->
 <div id="game-over-modal" class="modal">
     <div class="modal-content">
-        <img src="Designer_-_2024-10-02T181840.114-removebg-preview.png" alt="Logo" class="modal-logo"> <!-- Aquí agregas el logo -->
-        <h2>¡Has perdido!</h2>
-        <p>Te quedaste sin vidas.</p>
+        <img src="Designer_-_2024-10-02T181840.114-removebg-preview.png" alt="Logo" class="modal-logo">
+        
+        <h2>¡Has perdido!</h2> <h2> <span id="player-name-lost"></span></h2>
+        <p>Te quedaste sin vidas, .</p> <!-- Mostrar nombre aquí -->
         <button id="restart-button">Volver a jugar</button>
     </div>
 </div>
@@ -30,15 +30,16 @@
 <!-- Modal de victoria (Has ganado) -->
 <div id="game-win-modal" class="modal">
     <div class="modal-content">
-        <img src="Designer_-_2024-10-02T192813.952-removebg-preview.png" alt="Logo" class="modal-logo"> <!-- Aquí agregas el logo -->
-        <h2>¡Felicidades!</h2>
-        <p>¡GANASTE!</p>
+        <img src="Designer_-_2024-10-02T192813.952-removebg-preview.png" alt="Logo" class="modal-logo">
+        <h2>¡Felicidades! <span id="player-name-won"></span></h2>
+        <p>¡GANASTE, !</p> <!-- Mostrar nombre aquí -->
         <button id="win-restart-button">Volver a jugar</button>
     </div>
 </div>
+
 <!-- Modal de bienvenida -->
 <div id="welcome-modal" class="modalinicio">
-    <div class="modal-content">
+    <div class="modal-content1">
         <h2>¡Bienvenido a LuxGym!</h2>
         <h3>celebramos los 3 años de aniversario</h3>
         <p>Este es un juego donde</p>
@@ -49,9 +50,13 @@
         <p>Si encontras los 5 logos de LuxGym</p>
         <P>Toma una captura de pantalla</P>
         <p>y etiquetanos en una Historia de instagram</p>
-        <p>Con eso ya estas participando de los premios</p>
+        <p>Con eso ya estas participando del Sorteo</p>
         <p> ¡Buena suerte!</p>
-        <button id="start-game-button" class="jugar">Jugar</button>
+        <!-- Agregamos el campo para ingresar el nombre -->
+        <label for="player-name">Ingresa tu nombre:</label>
+        <input type="text" id="player-name" placeholder="Tu nombre" required>
+        
+        <button id="start-game-button" class="jugar" disabled>Jugar</button>
     </div>
 </div>
 

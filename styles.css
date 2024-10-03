@@ -61,7 +61,7 @@ body {
 }
 
 .box {
-    background-color: #ff2a04; /* Color de fondo */
+    background-color: #ff4b04; /* Color de fondo */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -75,7 +75,7 @@ body {
 
 /* Efecto al pasar el mouse sobre el cuadro */
 .box:hover {
-    background-color: #ff5722; /* Cambia el color de fondo al pasar el mouse */
+    background-color: #ffd622; /* Cambia el color de fondo al pasar el mouse */
     transform: translateY(-5px); /* Eleva el cuadro ligeramente */
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.5); /* Aumenta la sombra al pasar el mouse */
 }
@@ -103,7 +103,8 @@ img {
 }
 
 .modal-content {
-    background-color: rgb(248, 191, 2); /* Fondo blanco semitransparente */
+    background-color: rgba(248, 191, 2, 0.8); /* Mantiene el color amarillo pero más transparente */
+
     padding: 80px; /* Aumentar el padding para que sea más grande */
     border-radius: 15px; /* Bordes más redondeados */
     border-radius: 10px;
@@ -228,7 +229,7 @@ img {
     z-index: 999; 
 }
 
-.modal-content {
+.modal-content1 {
     background-color: rgba(240, 226, 29, 0.966); 
     padding: 40px; 
     border-radius: 15px; 
@@ -284,3 +285,19 @@ img {
         font-size: 0.85rem; /* Tamaño de fuente del botón */
     }
 }
+/* Estilo para el input de nombre */
+#player-name {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc; /* Borde gris */
+    border-radius: 5px; /* Bordes redondeados */
+    width: 80%; /* Ancho completo */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    transition: border-color 0.3s; /* Transición suave */
+}
+
+#player-name:focus {
+    border-color: #ff5202; /* Cambia el borde a verde al enfocar */
+    outline: none; /* Eliminar el contorno predeterminado */
+}
+

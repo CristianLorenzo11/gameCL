@@ -5,6 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const gameWinModal = document.getElementById('game-win-modal');
     const restartButton = document.getElementById('restart-button');
     const winRestartButton = document.getElementById('win-restart-button');
+    const playerNameLost = document.getElementById('player-name-lost');  // Para el modal de derrota
+    const playerNameWon = document.getElementById('player-name-won');    // Para el modal de victoria
+    const startGameButton = document.getElementById('start-game-button');
+    const playerNameInput = document.getElementById('player-name'); // Input de nombre
+    let playerName = ''; // Nombre del jugador
     let lives = 10;  // Vidas iniciales
     const totalBoxes = 20;
     const imageCount = 5;
@@ -12,6 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const luxgymImage = 'LUXGYM.png'; // Cambia esto a la ruta correcta de la imagen
     let selectedBoxes = [];
     let gameOver = false;
+
+    // Función para capitalizar la primera letra
+    function capitalizeFirstLetter(string) {
+        if (!string) return ''; // Verificar si la cadena está vacía
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 
     // Iniciar el juego
     function initGame() {
@@ -49,9 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (selectedBoxes.includes(boxId)) {
             // Si es una imagen de LuxGym, mostrarla y seguir jugando
-            // Modificación en el código anterior
-        box.innerHTML = `<img src="${luxgymImage}" alt="LuxGym" class="luxgym-image">`;
-
+            box.innerHTML = `<img src="${luxgymImage}" alt="LuxGym" class="luxgym-image">`;
             box.style.backgroundColor = 'transparent';
             foundLuxGym++;  // Aumentar el contador de cuadros LuxGym encontrados
             checkWin();  // Verificar si el jugador ha ganado
@@ -78,14 +87,28 @@ document.addEventListener('DOMContentLoaded', () => {
             winGame();  // Si se han encontrado los 5 cuadros LuxGym, el jugador gana
         }
     }
-
     function endGame() {
         gameOver = true;
+    
+        // Mostrar todas las imágenes y las "X" en los cuadros
+        const boxes = document.querySelectorAll('.box');
+        boxes.forEach((box, index) => {
+            if (selectedBoxes.includes(index)) {
+                box.innerHTML = `<img src="${luxgymImage}" alt="LuxGym" class="luxgym-image">`;
+                box.style.backgroundColor = 'transparent'; // Asegúrate de que el fondo sea transparente
+            } else {
+                box.innerHTML = 'X';
+                box.style.backgroundColor = 'transparent'; // Asegúrate de que el fondo sea transparente
+            }
+        });
+    
+        playerNameLost.textContent = playerName;  // Mostrar el nombre del jugador en el modal de derrota
         gameOverModal.style.display = 'flex';  // Mostrar el modal de derrota
     }
-
+    
     function winGame() {
         gameOver = true;
+        playerNameWon.textContent = playerName;  // Mostrar el nombre del jugador en el modal de victoria
         gameWinModal.style.display = 'flex';  // Mostrar el modal de victoria
     }
 
@@ -101,25 +124,25 @@ document.addEventListener('DOMContentLoaded', () => {
         initGame();  // Reiniciar el juego
     });
 
-    // Inicializar el juego por primera vez
-    initGame();
-});
-// Esperar a que el contenido se cargue completamente
-window.onload = function() {
-    // Mostrar el modal de bienvenida
-    const welcomeModal = document.getElementById('welcome-modal');
-    welcomeModal.style.display = 'flex'; // Cambiar a 'flex' para mostrar el modal
-};
+    // Habilitar o deshabilitar el botón de jugar según el input
+    playerNameInput.addEventListener('input', function() {
+        playerName = playerNameInput.value.trim();
+        startGameButton.disabled = playerName === '';
+    });
 
-// Manejar el evento de clic en el botón "Jugar"
-document.getElementById('start-game-button').addEventListener('click', function() {
-    const welcomeModal = document.getElementById('welcome-modal');
-    welcomeModal.style.display = 'none'; // Ocultar el modal de bienvenida
-    startGame(); // Iniciar el juego (si tienes una función para iniciar el juego)
-});
+    // Manejar el evento de clic en el botón "Jugar"
+    startGameButton.addEventListener('click', function() {
+        const welcomeModal = document.getElementById('welcome-modal');
+        if (playerName !== '') {
+            playerName = capitalizeFirstLetter(playerName); // Capitalizar la primera letra
+            welcomeModal.style.display = 'none'; // Ocultar el modal de bienvenida
+            initGame(); // Iniciar el juego
+        }
+    });
 
-// Aquí puedes definir la función startGame si es necesario
-function startGame() {
-    // Lógica para iniciar el juego
-    console.log("El juego ha comenzado");
-}
+    // Inicializar el juego por primera vez (después del nombre)
+    window.onload = function() {
+        const welcomeModal = document.getElementById('welcome-modal');
+        welcomeModal.style.display = 'flex'; // Mostrar el modal de bienvenida
+    };
+});
