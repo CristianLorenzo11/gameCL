@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 box.style.backgroundColor = 'white'; // Asegúrate de que el fondo sea transparente
             } else {
                 box.innerHTML = 'X';
-                box.style.backgroundColor = 'white'; // Asegúrate de que el fondo sea transparente
+                box.style.backgroundColor = 'transparent'; // Asegúrate de que el fondo sea transparente
             }
         });
     
