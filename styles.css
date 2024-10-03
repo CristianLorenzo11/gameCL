@@ -264,13 +264,14 @@ img {
     max-width: 90%; 
     max-height: 90%; 
     overflow: auto; 
-    width: 80%; 
+    width: 40%; 
     height: auto; 
 }
 
 /* Media Queries para dispositivos móviles */
 @media (max-width: 768px) { /* Para tablets y pantallas más pequeñas */
-    .modal-content {
+    .modal-content,
+    .modal-content1 {
         padding: 20px; /* Menos padding para dispositivos más pequeños */
         max-width: 95%; /* Aumentar el ancho máximo para pantallas más pequeñas */
         width: 90%; /* Ajustar el ancho para ser más responsivo */
