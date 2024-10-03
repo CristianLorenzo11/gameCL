@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (selectedBoxes.includes(boxId)) {
             // Si es una imagen de LuxGym, mostrarla y seguir jugando
             box.innerHTML = `<img src="${luxgymImage}" alt="LuxGym" class="luxgym-image">`;
-            box.style.backgroundColor = 'transparent';
+            box.style.backgroundColor = 'white';
             foundLuxGym++;  // Aumentar el contador de cuadros LuxGym encontrados
             checkWin();  // Verificar si el jugador ha ganado
         } else {
@@ -103,10 +103,10 @@ document.addEventListener('DOMContentLoaded', () => {
         boxes.forEach((box, index) => {
             if (selectedBoxes.includes(index)) {
                 box.innerHTML = `<img src="${luxgymImage}" alt="LuxGym" class="luxgym-image">`;
-                box.style.backgroundColor = 'transparent'; // Asegúrate de que el fondo sea transparente
+                box.style.backgroundColor = 'white'; // Asegúrate de que el fondo sea transparente
             } else {
                 box.innerHTML = 'X';
-                box.style.backgroundColor = 'transparent'; // Asegúrate de que el fondo sea transparente
+                box.style.backgroundColor = 'white'; // Asegúrate de que el fondo sea transparente
             }
         });
     

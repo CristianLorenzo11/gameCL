@@ -12,8 +12,13 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f0f0f0;
+
+    background-image: url('Designer\ -\ 2024-10-03T100400.642.jpeg'); /* Cambia esto a la ruta de tu imagen */
+    background-size: cover; /* Asegúrate de que la imagen cubra todo el fondo */
+    background-position: center; /* Centrar la imagen */
+    background-repeat: no-repeat; /* Evitar que la imagen se repita */
 }
+
 
 .info {
     margin-bottom: 20px;
@@ -103,7 +108,7 @@ img {
 }
 
 .modal-content {
-    background-color: rgba(248, 191, 2, 0.8); /* Mantiene el color amarillo pero más transparente */
+    background-color: rgba(135, 206, 235, 0.8); /* Celeste con transparencia */
 
     padding: 80px; /* Aumentar el padding para que sea más grande */
     border-radius: 15px; /* Bordes más redondeados */
@@ -251,7 +256,7 @@ img {
 }
 
 .modal-content1 {
-    background-color: rgba(240, 226, 29, 0.966); 
+    background-color: rgba(135, 206, 235, 0.8); /* Celeste con transparencia */
     padding: 40px; 
     border-radius: 15px; 
     text-align: center; 
