@@ -72,16 +72,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         box.removeEventListener('click', handleClick); // Evitar que se pueda volver a hacer clic en el mismo cuadro
     }
-
     function loseLife() {
         lives--;  // Restar una vida
         livesDisplay.textContent = lives;  // Actualizar el contador de vidas
-
+    
+        // Agregar el efecto al corazón
+        const corazonImg = document.querySelector('.corazon');
+        corazonImg.classList.add('pulsar'); // Agregar la clase de animación
+    
+        // Quitar la clase después de la animación para que se pueda volver a aplicar
+        setTimeout(() => {
+            corazonImg.classList.remove('pulsar');
+        }, 500); // Tiempo que dura la animación (debe coincidir con la duración de la animación en CSS)
+    
         if (lives === 0) {
             endGame();  // Terminar el juego si las vidas llegan a 0
         }
     }
-
+    
     function checkWin() {
         if (foundLuxGym === imageCount) {
             winGame();  // Si se han encontrado los 5 cuadros LuxGym, el jugador gana
