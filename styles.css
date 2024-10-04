@@ -65,6 +65,27 @@ body {
     width: 100px;
     border-radius: 50%;
 }
+.styled-button {
+    text-decoration: none; /* Quitar el subrayado del enlace */
+}
+
+.styled-button button {
+    background: linear-gradient(to right, #4405f0, #0502c5); /* Cambio de degradado al pasar el ratón */
+  
+    color: rgb(255, 255, 255); /* Color del texto */
+    border: none; /* Sin borde */
+    padding: 8px 15px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 1rem; /* Tamaño de la fuente */
+    cursor: pointer; /* Cambiar cursor al pasar por encima */
+   
+}
+
+.styled-button button:hover {
+    background: linear-gradient(to right, #02acd6, #6dddf1); /* Cambio de degradado al pasar el ratón */
+   
+}
+
 
 .box {
     background-color: #ff4b04; /* Color de fondo */
@@ -178,6 +199,8 @@ img {
     width: 200px;  /* Ajusta el tamaño de la imagen según necesites */
     height: auto;  /* Mantener la proporción del logo */
     margin-bottom: 20px;  /* Espacio debajo del logo */
+    filter: drop-shadow(0 4px 15px rgba(252, 250, 252, 0.795));
+    
 }
 
 
