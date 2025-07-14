@@ -5,35 +5,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const gameWinModal = document.getElementById('game-win-modal');
     const restartButton = document.getElementById('restart-button');
     const winRestartButton = document.getElementById('win-restart-button');
-    const playerNameLost = document.getElementById('player-name-lost');  // Para el modal de derrota
-    const playerNameWon = document.getElementById('player-name-won');    // Para el modal de victoria
+    const playerNameLost = document.getElementById('player-name-lost');
+    const playerNameWon = document.getElementById('player-name-won');
     const startGameButton = document.getElementById('start-game-button');
-    const playerNameInput = document.getElementById('player-name'); // Input de nombre
-    let playerName = ''; // Nombre del jugador
-    let lives = 10;  // Vidas iniciales
+    const playerNameInput = document.getElementById('player-name');
+    let playerName = '';
+    let lives = 10;
     const totalBoxes = 20;
     const imageCount = 5;
-    let foundLuxGym = 0;  // Contador de cuadros LuxGym encontrados
-    const luxgymImage = 'CL.png'; // Cambia esto a la ruta correcta de la imagen
+    let foundLuxGym = 0;
+    const luxgymImage = 'CL.png';
     let selectedBoxes = [];
     let gameOver = false;
+    let startTime, endTime;
 
-    // Función para capitalizar la primera letra
     function capitalizeFirstLetter(string) {
-        if (!string) return ''; // Verificar si la cadena está vacía
+        if (!string) return '';
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    // Iniciar el juego
     function initGame() {
-        gameBoard.innerHTML = ''; // Limpiar el tablero
+        gameBoard.innerHTML = '';
         selectedBoxes = [];
         foundLuxGym = 0;
         lives = 10;
         livesDisplay.textContent = lives;
         gameOver = false;
+        startTime = new Date();
 
-        // Generar las posiciones de los cuadros ganadores de manera aleatoria
         while (selectedBoxes.length < imageCount) {
             let randomNum = Math.floor(Math.random() * totalBoxes);
             if (!selectedBoxes.includes(randomNum)) {
@@ -41,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Crear los 20 cuadros
         for (let i = 0; i < totalBoxes; i++) {
             const box = document.createElement('div');
             box.classList.add('box');
@@ -51,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Manejar los clics en los cuadros
     function handleClick(event) {
         if (gameOver) return;
 
@@ -59,98 +56,154 @@ document.addEventListener('DOMContentLoaded', () => {
         const boxId = parseInt(box.getAttribute('data-id'));
 
         if (selectedBoxes.includes(boxId)) {
-            // Si es una imagen de LuxGym, mostrarla y seguir jugando
             box.innerHTML = `<img src="${luxgymImage}" alt="LuxGym" class="luxgym-image">`;
             box.style.backgroundColor = 'white';
-            foundLuxGym++;  // Aumentar el contador de cuadros LuxGym encontrados
-            checkWin();  // Verificar si el jugador ha ganado
+            foundLuxGym++;
+            checkWin();
         } else {
-            // Si es una X, perder una vida
             box.innerHTML = 'X';
             box.style.backgroundColor = 'transparent';
             loseLife();
         }
-        box.removeEventListener('click', handleClick); // Evitar que se pueda volver a hacer clic en el mismo cuadro
+
+        box.removeEventListener('click', handleClick);
     }
+
     function loseLife() {
-        lives--;  // Restar una vida
-        livesDisplay.textContent = lives;  // Actualizar el contador de vidas
-    
-        // Agregar el efecto al corazón
+        lives--;
+        livesDisplay.textContent = lives;
+
         const corazonImg = document.querySelector('.corazon');
-        corazonImg.classList.add('pulsar'); // Agregar la clase de animación
-    
-        // Quitar la clase después de la animación para que se pueda volver a aplicar
+        corazonImg.classList.add('pulsar');
+
         setTimeout(() => {
             corazonImg.classList.remove('pulsar');
-        }, 500); // Tiempo que dura la animación (debe coincidir con la duración de la animación en CSS)
-    
+        }, 500);
+
         if (lives === 0) {
-            endGame();  // Terminar el juego si las vidas llegan a 0
+            endGame();
         }
     }
-    
+
     function checkWin() {
         if (foundLuxGym === imageCount) {
-            winGame();  // Si se han encontrado los 5 cuadros LuxGym, el jugador gana
+            winGame();
         }
     }
+
     function endGame() {
         gameOver = true;
-    
-        // Mostrar todas las imágenes y las "X" en los cuadros
+
         const boxes = document.querySelectorAll('.box');
         boxes.forEach((box, index) => {
             if (selectedBoxes.includes(index)) {
                 box.innerHTML = `<img src="${luxgymImage}" alt="LuxGym" class="luxgym-image">`;
-                box.style.backgroundColor = 'white'; // Asegúrate de que el fondo sea transparente
+                box.style.backgroundColor = 'white';
             } else {
                 box.innerHTML = 'X';
-                box.style.backgroundColor = 'transparent'; // Asegúrate de que el fondo sea transparente
+                box.style.backgroundColor = 'transparent';
             }
         });
-    
-        playerNameLost.textContent = playerName;  // Mostrar el nombre del jugador en el modal de derrota
-        gameOverModal.style.display = 'flex';  // Mostrar el modal de derrota
+
+        const resultado = calcularPuntaje();
+        enviarPuntaje(playerName, resultado.puntaje, resultado.corazones, resultado.tiempo);
+        obtenerRanking();
+
+        playerNameLost.textContent = playerName;
+        gameOverModal.style.display = 'flex';
     }
-    
+
     function winGame() {
         gameOver = true;
-        playerNameWon.textContent = playerName;  // Mostrar el nombre del jugador en el modal de victoria
-        gameWinModal.style.display = 'flex';  // Mostrar el modal de victoria
+
+        const resultado = calcularPuntaje();
+        enviarPuntaje(playerName, resultado.puntaje, resultado.corazones, resultado.tiempo);
+        obtenerRanking();
+
+        playerNameWon.textContent = playerName;
+        gameWinModal.style.display = 'flex';
     }
 
-    // Reiniciar el juego cuando el usuario haga clic en "Volver a jugar" (derrota)
     restartButton.addEventListener('click', () => {
-        gameOverModal.style.display = 'none';  // Ocultar el modal
-        initGame();  // Reiniciar el juego
+        gameOverModal.style.display = 'none';
+        initGame();
     });
 
-    // Reiniciar el juego cuando el usuario haga clic en "Volver a jugar" (victoria)
     winRestartButton.addEventListener('click', () => {
-        gameWinModal.style.display = 'none';  // Ocultar el modal de victoria
-        initGame();  // Reiniciar el juego
+        gameWinModal.style.display = 'none';
+        initGame();
     });
 
-    // Habilitar o deshabilitar el botón de jugar según el input
-    playerNameInput.addEventListener('input', function() {
+    playerNameInput.addEventListener('input', function () {
         playerName = playerNameInput.value.trim();
         startGameButton.disabled = playerName === '';
     });
 
-    // Manejar el evento de clic en el botón "Jugar"
-    startGameButton.addEventListener('click', function() {
+    startGameButton.addEventListener('click', function () {
         const welcomeModal = document.getElementById('welcome-modal');
         if (playerName !== '') {
-            playerName = capitalizeFirstLetter(playerName); // Capitalizar la primera letra
-            welcomeModal.style.display = 'none'; // Ocultar el modal de bienvenida
-            initGame(); // Iniciar el juego
+            playerName = capitalizeFirstLetter(playerName);
+            welcomeModal.style.display = 'none';
+            initGame();
         }
     });
 
-    // Inicializar el juego por primera vez (después del nombre)
-    window.onload = function() {
+    window.onload = function () {
         const welcomeModal = document.getElementById('welcome-modal');
-        welcomeModal.style.display = 'flex'; // Mostrar el modal de bienvenida
+        welcomeModal.style.display = 'flex';
+        obtenerRanking(); // Muestra ranking apenas inicia
     };
+
+    // Calcular puntaje
+    function calcularPuntaje() {
+        endTime = new Date();
+        const tiempoEnSegundos = Math.floor((endTime - startTime) / 1000);
+        const puntaje = (lives * 100) + (1000 - tiempoEnSegundos * 10);
+        return {
+            puntaje: Math.max(puntaje, 0),
+            tiempo: tiempoEnSegundos,
+            corazones: lives
+        };
+    }
+
+    // Enviar puntaje al backend
+    function enviarPuntaje(nombre, puntaje, corazones, tiempo) {
+        fetch('http://localhost:3000/api/ranking', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                nombre,
+                puntaje,
+                corazones_restantes: corazones,
+                tiempo
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log('Puntaje guardado correctamente:', data);
+        })
+        .catch(err => {
+            console.error('Error al guardar puntaje:', err);
+        });
+    }
+
+    // Obtener ranking del backend
+    function obtenerRanking() {
+        fetch('http://localhost:3000/api/ranking')
+            .then(res => res.json())
+            .then(data => {
+                const tabla = document.getElementById('tabla-ranking');
+                if (tabla) {
+                    tabla.innerHTML = data.map((jugador, index) => `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${jugador.nombre}</td>
+                            <td>${jugador.puntaje}</td>
+                            <td>${jugador.corazones_restantes}</td>
+                            <td>${jugador.tiempo}s</td>
+                        </tr>
+                    `).join('');
+                }
+            });
+    }
 });
