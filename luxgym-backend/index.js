@@ -40,6 +40,10 @@ app.get('/api/ranking', async (req, res) => {
   }
 });
 
+pool.query('SELECT 1')
+  .then(() => console.log('✅ Conectado a la base de datos'))
+  .catch(err => console.error('❌ Error conectando a la base de datos:', err));
+
 // Puerto
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
