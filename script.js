@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalBoxes = 20;
     const imageCount = 5;
     let foundLuxGym = 0;  // Contador de cuadros LuxGym encontrados
-    const luxgymImage = 'LUXGYM.png'; // Cambia esto a la ruta correcta de la imagen
+    const luxgymImage = 'CL.png'; // Cambia esto a la ruta correcta de la imagen
     let selectedBoxes = [];
     let gameOver = false;
 

@@ -38,7 +38,7 @@ body {
 .luxgym-image {
     width: 100%; /* Ocupa todo el ancho del cuadro */
     height: 100%; /* Ocupa toda la altura del cuadro */
-   
+    border-radius: 10%;
 }
 
 
@@ -88,7 +88,7 @@ body {
 
 
 .box {
-    background-color: #ff4b04; /* Color de fondo */
+    background-color: #388ec0; /* Color de fondo */
     color: white;
     display: flex;
     justify-content: center;
