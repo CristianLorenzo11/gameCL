@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Enviar puntaje al backend
     function enviarPuntaje(nombre, puntaje, corazones, tiempo) {
-        fetch('http://localhost:3000/api/ranking', {
+        fetch('https://gamecl-production.up.railway.app/api/ranking', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Obtener ranking del backend
     function obtenerRanking() {
-        fetch('http://localhost:3000/api/ranking')
+        fetch('https://gamecl-production.up.railway.app/api/ranking')
             .then(res => res.json())
             .then(data => {
                 const tabla = document.getElementById('tabla-ranking');
