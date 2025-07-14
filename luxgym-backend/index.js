@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Ruta para guardar puntaje
+// POST: guardar nuevo puntaje
 app.post('/api/ranking', async (req, res) => {
   const { nombre, puntaje, corazones_restantes, tiempo } = req.body;
 
@@ -27,7 +27,7 @@ app.post('/api/ranking', async (req, res) => {
   }
 });
 
-// Ruta para obtener el top 10
+// GET: obtener top 10 jugadores
 app.get('/api/ranking', async (req, res) => {
   try {
     const [rows] = await pool.execute(
@@ -40,6 +40,7 @@ app.get('/api/ranking', async (req, res) => {
   }
 });
 
+// Puerto
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
