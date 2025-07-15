@@ -13,16 +13,13 @@ body {
     margin: 0;
     padding: 20px 0;
     min-height: 100vh;
-
-    background-image: url('Designer - 2024-10-03T100400.642.jpeg'); /* Cambia esto a la ruta de tu imagen */
-    background-size: cover; /* Que la imagen cubra todo el fondo */
+    background-image: url('Designer - 2024-10-03T100400.642.jpeg');
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* NO usamos justify-content: center para permitir scroll si el contenido crece */
 }
 
 .info {
@@ -32,7 +29,8 @@ body {
 }
 
 .game-section {
-    width: 500px;
+    width: 100%;
+    max-width: 500px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -42,28 +40,53 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 500px;
-    height: 500px; /* Cuadrado perfecto */
+    width: 100%;
+    max-width: 500px;
+    height: auto;
 }
 
 .luxgym-image {
-    width: 100%; /* Ocupa todo el ancho del cuadro */
-    height: 100%; /* Ocupa toda la altura del cuadro */
+    width: 100%;
+    height: 100%;
     border-radius: 10%;
 }
 
 #game-board {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 5 columnas */
-    grid-template-rows: repeat(4, 1fr);    /* 4 filas */
-    gap: 10px; /* Espacio entre los cuadritos */
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
     width: 100%;
-    height: 100%;
+    height: auto;
+}
+
+.box {
+    background-color: #388ec0;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    border-radius: 10px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+    min-height: 80px;
+}
+
+.box:hover {
+    background-color: #ffd622;
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .corazon {
     padding-top: 10px;
-    width: 40px; /* Tamaño del corazón */
+    width: 40px;
     height: auto;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -71,6 +94,16 @@ body {
 .corazon:hover {
     transform: scale(1.1);
     box-shadow: 0px 4px 20px rgba(255, 0, 0, 0.5);
+}
+
+.corazon.pulsar {
+    animation: pulse 0.5s ease;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
 }
 
 .Lux {
@@ -84,7 +117,7 @@ body {
 
 .styled-button button {
     background: linear-gradient(to right, #4405f0, #0502c5);
-    color: rgb(255, 255, 255);
+    color: white;
     border: none;
     padding: 8px 15px;
     border-radius: 5px;
@@ -96,10 +129,9 @@ body {
     background: linear-gradient(to right, #02acd6, #6dddf1);
 }
 
-/* Estilos del ranking, separado para no interferir */
 .ranking {
     max-width: 700px;
-    margin: 50px auto 100px auto; /* Margen superior para separar del juego */
+    margin: 50px auto 100px auto;
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
@@ -134,51 +166,41 @@ body {
     background-color: #f2f2f2;
 }
 
-/* Estilos para los cuadros del juego */
-.box {
-    background-color: #388ec0;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    border-radius: 10px;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
-}
-
-.box:hover {
-    background-color: #ffd622;
-    transform: translateY(-5px);
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.5);
-}
-
-img {
-    max-width: 100%;
-    max-height: 100%;
-}
-
-/* Estilos del modal */
-.modal {
+.modal, .modalinicio {
     display: none;
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
     z-index: 9999;
 }
 
-.modal-content {
+.modalinicio {
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+}
+
+.modal-content, .modal-content1 {
     background-color: rgba(135, 206, 235, 0.8);
-    padding: 80px;
+    padding: 40px;
     border-radius: 15px;
     text-align: center;
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.6);
+    max-width: 90%;
+    max-height: 90%;
+    overflow: auto;
+    width: 40%;
+}
+
+.modal-logo {
+    width: 200px;
+    height: auto;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 4px 15px rgba(252, 250, 252, 0.795));
 }
 
 #restart-button, #win-restart-button {
@@ -195,103 +217,6 @@ img {
     background-color: #ff0404;
 }
 
-.modal-logo {
-    width: 200px;
-    height: auto;
-    margin-bottom: 20px;
-    filter: drop-shadow(0 4px 15px rgba(252, 250, 252, 0.795));
-}
-
-/* Modal de bienvenida */
-.modalinicio {
-    display: flex;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.8);
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
-}
-
-.modal-content1 {
-    background-color: rgba(135, 206, 235, 0.8);
-    padding: 40px;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.6);
-    max-width: 90%;
-    max-height: 90%;
-    overflow: auto;
-    width: 40%;
-    height: auto;
-}
-
-/* Animación pulso para el corazón */
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.2);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-.corazon {
-    width: 50px;
-    animation: none;
-}
-
-.corazon.pulsar {
-    animation: pulse 0.5s ease;
-}
-
-/* Media queries */
-@media (max-width: 768px) {
-    .game-section, .container {
-        width: 90vw;
-        height: auto;
-    }
-
-    #game-board {
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-    .modal-content, .modal-content1 {
-        padding: 30px;
-    }
-
-    .modal-logo {
-        width: 120px;
-    }
-}
-
-@media (max-width: 480px) {
-    .game-section, .container {
-        width: 100vw;
-        padding: 3px;
-        height: auto;
-    }
-
-    #game-board {
-        grid-template-columns: repeat(5, 1fr);
-    }
-
-    .modal-logo {
-        width: 200px;
-    }
-
-    .modal-content, .modal-content1 {
-        padding: 5px;
-    }
-}
-
-/* Estilo para input nombre */
 #player-name {
     padding: 10px;
     font-size: 16px;
@@ -306,6 +231,7 @@ img {
     border-color: #ff5202;
     outline: none;
 }
+
 .jugar {
     margin-top: 20px;
     padding: 12px 25px;
@@ -331,4 +257,49 @@ img {
     cursor: not-allowed;
     box-shadow: none;
     color: #666;
+}
+
+/* 📱 Media Queries */
+@media (max-width: 768px) {
+    .game-section, .container {
+        width: 90vw;
+        height: auto;
+    }
+
+    #game-board {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .modal-content, .modal-content1 {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .modal-logo {
+        width: 140px;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-section, .container {
+        width: 100vw;
+        padding: 10px;
+    }
+
+    #game-board {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .box {
+        font-size: 1.5rem;
+        min-height: 60px;
+    }
+
+    .modal-content, .modal-content1 {
+        padding: 15px;
+    }
+
+    .modal-logo {
+        width: 120px;
+    }
 }
