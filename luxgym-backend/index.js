@@ -31,7 +31,7 @@ app.post('/api/ranking', async (req, res) => {
 app.get('/api/ranking', async (req, res) => {
   try {
     const [rows] = await pool.execute(
-      'SELECT nombre, puntaje, corazones_restantes, tiempo, fecha FROM ranking ORDER BY puntaje DESC LIMIT 10'
+      'SELECT nombre, puntaje, corazones_restantes, tiempo FROM ranking ORDER BY puntaje DESC LIMIT 10'
     );
     res.status(200).json(rows);
   } catch (error) {
@@ -41,4 +41,6 @@ app.get('/api/ranking', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en puerto ${PORT}`);
+});
