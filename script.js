@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function enviarPuntaje(nombre, puntaje, corazones, tiempo) {
         try {
-            const res = await fetch('http://localhost:3000/api/ranking', {
+            const res = await fetch('https://gamecl-production-0aab.up.railway.app/api/ranking', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function obtenerRanking() {
         try {
-            const res = await fetch('http://localhost:3000/api/ranking');
+            const res = await fetch('https://gamecl-production-0aab.up.railway.app/api/ranking');
             const data = await res.json();
 
             const tablaLost = document.getElementById('tabla-ranking-lost');
