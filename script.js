@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
             box.innerHTML = `<img src="${luxgymImage}" alt="LuxGym" class="luxgym-image">`;
             box.style.backgroundColor = 'white';
             foundLuxGym++;
+            clBotHabla('¡Bien! Encontraste uno 👏');
             checkWin();
         } else {
             box.innerHTML = 'X';
@@ -81,7 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 500);
 
         if (lives === 0) {
+            clBotHabla('¡Oh no! Te quedaste sin vidas 😢');
             endGame();
+        } else {
+            clBotHabla(`Perdiste una vida. Te quedan ${lives}. ¡Cuidado!`);
         }
     }
 
@@ -91,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function endGame() {
+    async function endGame() {
         gameOver = true;
 
         const boxes = document.querySelectorAll('.box');
@@ -106,32 +110,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const resultado = calcularPuntaje();
-        enviarPuntaje(playerName, resultado.puntaje, resultado.corazones, resultado.tiempo);
-        obtenerRanking();
+        await enviarPuntaje(playerName, resultado.puntaje, resultado.corazones, resultado.tiempo);
+        await obtenerRanking();
 
         playerNameLost.textContent = playerName;
         gameOverModal.style.display = 'flex';
     }
 
-    function winGame() {
+    async function winGame() {
         gameOver = true;
 
         const resultado = calcularPuntaje();
-        enviarPuntaje(playerName, resultado.puntaje, resultado.corazones, resultado.tiempo);
-        obtenerRanking();
+        await enviarPuntaje(playerName, resultado.puntaje, resultado.corazones, resultado.tiempo);
+        await obtenerRanking();
 
         playerNameWon.textContent = playerName;
+        clBotHabla(`¡Impresionante ${playerName}! ¡Ganaste con ${lives} vidas! 🎉`);
         gameWinModal.style.display = 'flex';
     }
 
     restartButton.addEventListener('click', () => {
         gameOverModal.style.display = 'none';
         initGame();
+        clBotHabla(`¡Vamos ${playerName}, esta vez lo lográs!`);
     });
 
     winRestartButton.addEventListener('click', () => {
         gameWinModal.style.display = 'none';
         initGame();
+        clBotHabla(`¡A ver si podés superarte ${playerName}! 💪`);
     });
 
     playerNameInput.addEventListener('input', function () {
@@ -144,6 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (playerName !== '') {
             playerName = capitalizeFirstLetter(playerName);
             welcomeModal.style.display = 'none';
+            clBotHabla(`¡Hola ${playerName}! Encontrá los 5 logos de CL antes de quedarte sin vidas 👀`);
             initGame();
         }
     });
@@ -151,10 +159,10 @@ document.addEventListener('DOMContentLoaded', () => {
     window.onload = function () {
         const welcomeModal = document.getElementById('welcome-modal');
         welcomeModal.style.display = 'flex';
-        obtenerRanking(); // Muestra ranking apenas inicia
+        obtenerRanking();
+        clBotHabla('¡Bienvenido! Ingresá tu nombre para comenzar 🧠');
     };
 
-    // Calcular puntaje
     function calcularPuntaje() {
         endTime = new Date();
         const tiempoEnSegundos = Math.floor((endTime - startTime) / 1000);
@@ -166,44 +174,70 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-    // Enviar puntaje al backend
-    function enviarPuntaje(nombre, puntaje, corazones, tiempo) {
-        fetch('http://localhost:3000/api/ranking', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                nombre,
-                puntaje,
-                corazones_restantes: corazones,
-                tiempo
-            })
-        })
-        .then(res => res.json())
-        .then(data => {
+    async function enviarPuntaje(nombre, puntaje, corazones, tiempo) {
+        try {
+            const res = await fetch('http://localhost:3000/api/ranking', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    nombre,
+                    puntaje,
+                    corazones_restantes: corazones,
+                    tiempo
+                })
+            });
+            const data = await res.json();
             console.log('Puntaje guardado correctamente:', data);
-        })
-        .catch(err => {
+        } catch (err) {
             console.error('Error al guardar puntaje:', err);
-        });
+            clBotHabla('No pude guardar tu puntaje 😓');
+        }
     }
 
-    // Obtener ranking del backend
-    function obtenerRanking() {
-        fetch('http://localhost:3000/api/ranking')
-            .then(res => res.json())
-            .then(data => {
-                const tabla = document.getElementById('tabla-ranking');
-                if (tabla) {
-                    tabla.innerHTML = data.map((jugador, index) => `
-                        <tr>
-                            <td>${index + 1}</td>
-                            <td>${jugador.nombre}</td>
-                            <td>${jugador.puntaje}</td>
-                            <td>${jugador.corazones_restantes}</td>
-                            <td>${jugador.tiempo}s</td>
-                        </tr>
-                    `).join('');
-                }
-            });
+    async function obtenerRanking() {
+        try {
+            const res = await fetch('http://localhost:3000/api/ranking');
+            const data = await res.json();
+
+            const tablaLost = document.getElementById('tabla-ranking-lost');
+            const tablaWon = document.getElementById('tabla-ranking-won');
+
+            const renderFila = (jugador, index) => {
+                const esJugadorActual = jugador.nombre.toLowerCase() === playerName.toLowerCase();
+                return `
+                    <tr ${esJugadorActual ? 'style="background-color: #fff3b0;"' : ''}>
+                        <td>${index + 1}</td>
+                        <td>${jugador.nombre.replace(' ', '<br>')}</td>
+                        <td>${jugador.puntaje}</td>
+                        <td>${jugador.corazones_restantes}</td>
+                        <td>${jugador.tiempo}s</td>
+                    </tr>
+                `;
+            };
+
+            if (tablaLost) {
+                tablaLost.innerHTML = data.map(renderFila).join('');
+            }
+
+            if (tablaWon) {
+                tablaWon.innerHTML = data.map(renderFila).join('');
+            }
+        } catch (err) {
+            console.error('Error al obtener ranking:', err);
+            clBotHabla('No pude obtener el ranking 😓');
+        }
     }
 });
+
+// CL BOT: Ventana emergente de mensajes
+function clBotHabla(texto, duracion = 5000) {
+    const bot = document.getElementById('cl-bot');
+    const mensaje = document.getElementById('cl-bot-text');
+
+    mensaje.textContent = texto;
+    bot.classList.remove('hidden');
+
+    setTimeout(() => {
+        bot.classList.add('hidden');
+    }, duracion);
+}
