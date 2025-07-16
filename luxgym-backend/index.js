@@ -3,49 +3,11 @@ const cors = require('cors');
 const pool = require('./db');
 require('dotenv').config();
 
-console.log('Iniciando servidor...');
-
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-// Probar conexión a la base de datos al iniciar
-(async () => {
-  try {
-    const conn = await pool.getConnection();
-    console.log('Conexión a la base de datos exitosa');
-    conn.release();
-  } catch (err) {
-    console.error('Error al conectar a la base de datos:', err);
-  }
-})();
-
-// Ruta de prueba para saber si el servidor funciona
-app.get('/ping', (req, res) => {
-  console.log('Ruta /ping llamada');
-  res.send('pong');
-});
-
-// Rutas de ranking...
-app.get('/api/ranking', async (req, res) => {
-  try {
-    const [rows] = await pool.query(
-      'SELECT nombre, puntaje, corazones_restantes, tiempo FROM ranking ORDER BY puntaje DESC LIMIT 10'
-    );
-    res.json(rows);
-  } catch (error) {
-    console.error('Error al obtener ranking:', error);
-    res.status(500).json({ error: 'Error al obtener ranking' });
-  }
-});
-
-=======
-=======
->>>>>>> parent of 4a307de (,)
-// Ruta para guardar puntaje
->>>>>>> parent of 4a307de (,)
+// Guardar puntaje
 app.post('/api/ranking', async (req, res) => {
   const { nombre, puntaje, corazones_restantes, tiempo } = req.body;
 
@@ -58,18 +20,27 @@ app.post('/api/ranking', async (req, res) => {
       'INSERT INTO ranking (nombre, puntaje, corazones_restantes, tiempo) VALUES (?, ?, ?, ?)',
       [nombre, puntaje, corazones_restantes, tiempo]
     );
-    res.json({ message: 'Puntaje guardado correctamente' });
+    res.status(200).json({ message: 'Puntaje guardado correctamente' });
   } catch (error) {
-    console.error('Error al guardar puntaje:', error);
-    res.status(500).json({ error: 'Error al guardar puntaje' });
+    console.error('Error al guardar el puntaje:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+});
+
+// Obtener el ranking
+app.get('/api/ranking', async (req, res) => {
+  try {
+    const [rows] = await pool.execute(
+      'SELECT nombre, puntaje, corazones_restantes, tiempo, fecha FROM ranking ORDER BY puntaje DESC LIMIT 10'
+    );
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error('Error al obtener ranking:', error);
+    res.status(500).json({ error: 'Error al obtener ranking' });
   }
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en puerto ${PORT}`);
+  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });
-
-pool.getConnection()
-  .then(() => console.log(`✅ Conectado a la base local: ${process.env.DB_NAME}`))
-  .catch(err => console.error('❌ Error al conectar a la base local:', err));

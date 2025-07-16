@@ -1,7 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-const API_BASE_URL = 'http://localhost:3000';
-
-
     const gameBoard = document.getElementById('game-board');
     const livesDisplay = document.getElementById('lives');
     const gameOverModal = document.getElementById('game-over-modal');
@@ -80,9 +77,7 @@ const API_BASE_URL = 'http://localhost:3000';
         const corazonImg = document.querySelector('.corazon');
         if (corazonImg) {
             corazonImg.classList.add('pulsar');
-            setTimeout(() => {
-                corazonImg.classList.remove('pulsar');
-            }, 500);
+            setTimeout(() => corazonImg.classList.remove('pulsar'), 500);
         }
 
         if (lives === 0) {
@@ -99,7 +94,7 @@ const API_BASE_URL = 'http://localhost:3000';
         }
     }
 
-    async function endGame() {
+    function endGame() {
         gameOver = true;
 
         const boxes = document.querySelectorAll('.box');
@@ -114,19 +109,19 @@ const API_BASE_URL = 'http://localhost:3000';
         });
 
         const resultado = calcularPuntaje();
-        await enviarPuntaje(playerName, resultado.puntaje, resultado.corazones, resultado.tiempo);
-        await obtenerRanking();
+        enviarPuntaje(playerName, resultado.puntaje, resultado.corazones, resultado.tiempo);
+        obtenerRanking();
 
         playerNameLost.textContent = playerName;
         gameOverModal.style.display = 'flex';
     }
 
-    async function winGame() {
+    function winGame() {
         gameOver = true;
 
         const resultado = calcularPuntaje();
-        await enviarPuntaje(playerName, resultado.puntaje, resultado.corazones, resultado.tiempo);
-        await obtenerRanking();
+        enviarPuntaje(playerName, resultado.puntaje, resultado.corazones, resultado.tiempo);
+        obtenerRanking();
 
         playerNameWon.textContent = playerName;
         clBotHabla(`¡Impresionante ${playerName}! ¡Ganaste con ${lives} vidas! 🎉`);
@@ -178,70 +173,63 @@ const API_BASE_URL = 'http://localhost:3000';
         };
     }
 
-    async function enviarPuntaje(nombre, puntaje, corazones, tiempo) {
-        try {
-            const res = await fetch(`${API_BASE_URL}/api/ranking`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    nombre,
-                    puntaje,
-                    corazones_restantes: corazones,
-                    tiempo
-                })
-            });
-            const data = await res.json();
+    function enviarPuntaje(nombre, puntaje, corazones, tiempo) {
+        fetch('http://localhost:3000/api/ranking', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nombre, puntaje, corazones_restantes: corazones, tiempo })
+        })
+        .then(res => res.json())
+        .then(data => {
             console.log('Puntaje guardado correctamente:', data);
-        } catch (err) {
+        })
+        .catch(err => {
             console.error('Error al guardar puntaje:', err);
             clBotHabla('No pude guardar tu puntaje 😓');
-        }
+        });
     }
 
-    async function obtenerRanking() {
-        try {
-            // Pedir ganadores
-            const resWin = await fetch(`${API_BASE_URL}/api/ranking/win`);
-            const rankingWin = await resWin.json();
+    function obtenerRanking() {
+        fetch('http://localhost:3000/api/ranking')
+            .then(res => res.json())
+            .then(data => {
+                const tablaLost = document.getElementById('tabla-ranking-lost');
+                const tablaWon = document.getElementById('tabla-ranking-won');
 
-            // Pedir perdedores
-            const resLoss = await fetch(`${API_BASE_URL}/api/ranking/loss`);
-            const rankingLoss = await resLoss.json();
+                const renderFila = (jugador, index) => {
+                    const esJugadorActual = jugador.nombre.toLowerCase() === playerName.toLowerCase();
+                    return `
+                        <tr ${esJugadorActual ? 'style="background-color: #fff3b0;"' : ''}>
+                            <td>${index + 1}</td>
+                            <td>${jugador.nombre}</td>
+                            <td>${jugador.puntaje}</td>
+                            <td>${jugador.corazones_restantes}</td>
+                            <td>${jugador.tiempo}s</td>
+                        </tr>
+                    `;
+                };
 
-            const tablaLost = document.getElementById('tabla-ranking-lost');
-            const tablaWon = document.getElementById('tabla-ranking-won');
+                if (tablaLost) {
+                    tablaLost.innerHTML = data.map(renderFila).join('');
+                }
 
-            const renderFila = (jugador, index) => {
-                const esJugadorActual = jugador.nombre.toLowerCase() === playerName.toLowerCase();
-                return `
-                    <tr ${esJugadorActual ? 'style="background-color: #fff3b0;"' : ''}>
-                        <td>${index + 1}</td>
-                        <td>${jugador.nombre.replace(' ', '<br>')}</td>
-                        <td>${jugador.puntaje}</td>
-                        <td>${jugador.corazones_restantes}</td>
-                        <td>${jugador.tiempo}s</td>
-                    </tr>
-                `;
-            };
-
-            if (tablaLost) {
-                tablaLost.innerHTML = rankingLoss.map(renderFila).join('');
-            }
-
-            if (tablaWon) {
-                tablaWon.innerHTML = rankingWin.map(renderFila).join('');
-            }
-        } catch (err) {
-            console.error('Error al obtener ranking:', err);
-            clBotHabla('No pude obtener el ranking 😓');
-        }
+                if (tablaWon) {
+                    tablaWon.innerHTML = data.map(renderFila).join('');
+                }
+            })
+            .catch(err => {
+                console.error('Error al obtener ranking:', err);
+                clBotHabla('No pude obtener el ranking 😓');
+            });
     }
 });
 
-// CL BOT
+// CL BOT: Ventana emergente de mensajes
 function clBotHabla(texto, duracion = 5000) {
     const bot = document.getElementById('cl-bot');
     const mensaje = document.getElementById('cl-bot-text');
+
+    if (!bot || !mensaje) return;
 
     mensaje.textContent = texto;
     bot.classList.remove('hidden');
