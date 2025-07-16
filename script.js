@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+const API_BASE_URL = 'http://localhost:3000';
+
+
     const gameBoard = document.getElementById('game-board');
     const livesDisplay = document.getElementById('lives');
     const gameOverModal = document.getElementById('game-over-modal');
@@ -177,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function enviarPuntaje(nombre, puntaje, corazones, tiempo) {
         try {
-            const res = await fetch('http://localhost:3000/api/ranking', {
+            const res = await fetch(`${API_BASE_URL}/api/ranking`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -197,8 +200,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function obtenerRanking() {
         try {
-            const res = await fetch('http://localhost:3000/api/ranking');
-            const data = await res.json();
+            // Pedir ganadores
+            const resWin = await fetch(`${API_BASE_URL}/api/ranking/win`);
+            const rankingWin = await resWin.json();
+
+            // Pedir perdedores
+            const resLoss = await fetch(`${API_BASE_URL}/api/ranking/loss`);
+            const rankingLoss = await resLoss.json();
 
             const tablaLost = document.getElementById('tabla-ranking-lost');
             const tablaWon = document.getElementById('tabla-ranking-won');
@@ -217,11 +225,11 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             if (tablaLost) {
-                tablaLost.innerHTML = data.map(renderFila).join('');
+                tablaLost.innerHTML = rankingLoss.map(renderFila).join('');
             }
 
             if (tablaWon) {
-                tablaWon.innerHTML = data.map(renderFila).join('');
+                tablaWon.innerHTML = rankingWin.map(renderFila).join('');
             }
         } catch (err) {
             console.error('Error al obtener ranking:', err);
