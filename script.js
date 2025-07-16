@@ -75,11 +75,12 @@ document.addEventListener('DOMContentLoaded', () => {
         livesDisplay.textContent = lives;
 
         const corazonImg = document.querySelector('.corazon');
-        corazonImg.classList.add('pulsar');
-
-        setTimeout(() => {
-            corazonImg.classList.remove('pulsar');
-        }, 500);
+        if (corazonImg) {
+            corazonImg.classList.add('pulsar');
+            setTimeout(() => {
+                corazonImg.classList.remove('pulsar');
+            }, 500);
+        }
 
         if (lives === 0) {
             clBotHabla('¡Oh no! Te quedaste sin vidas 😢');
@@ -176,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function enviarPuntaje(nombre, puntaje, corazones, tiempo) {
         try {
-            const res = await fetch('https://gamecl-production-0aab.up.railway.app/api/ranking', {
+            const res = await fetch('http://localhost:3000/api/ranking', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -196,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function obtenerRanking() {
         try {
-            const res = await fetch('https://gamecl-production-0aab.up.railway.app/api/ranking');
+            const res = await fetch('http://localhost:3000/api/ranking');
             const data = await res.json();
 
             const tablaLost = document.getElementById('tabla-ranking-lost');
@@ -229,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// CL BOT: Ventana emergente de mensajes
+// CL BOT
 function clBotHabla(texto, duracion = 5000) {
     const bot = document.getElementById('cl-bot');
     const mensaje = document.getElementById('cl-bot-text');
