@@ -10,6 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 // Probar conexión a la base de datos al iniciar
 (async () => {
   try {
@@ -41,6 +42,8 @@ app.get('/api/ranking', async (req, res) => {
 });
 
 =======
+=======
+>>>>>>> parent of 4a307de (,)
 // Ruta para guardar puntaje
 >>>>>>> parent of 4a307de (,)
 app.post('/api/ranking', async (req, res) => {
