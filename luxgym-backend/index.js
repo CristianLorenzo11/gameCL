@@ -9,6 +9,10 @@ app.use(cors({
 }));
 app.use(express.json());
 
+app.get('/ping', (req, res) => {
+  res.send('pong');
+});
+
 // Ruta para guardar puntaje
 app.post('/api/ranking', async (req, res) => {
   const { nombre, puntaje, corazones_restantes, tiempo } = req.body;
