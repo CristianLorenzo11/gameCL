@@ -44,3 +44,17 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en puerto ${PORT}`);
 });
+
+// TEST: Insertar un registro de prueba
+app.get('/api/test-insert', async (req, res) => {
+  try {
+    const [result] = await pool.execute(
+      'INSERT INTO ranking (nombre, puntaje, corazones_restantes, tiempo) VALUES (?, ?, ?, ?)',
+      ['TestJugador', 500, 3, 60]
+    );
+    res.status(200).json({ message: 'Insertado correctamente', result });
+  } catch (error) {
+    console.error('Error al insertar:', error);
+    res.status(500).json({ error: 'Error al insertar en la base de datos' });
+  }
+});
