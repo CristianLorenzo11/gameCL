@@ -3,39 +3,62 @@ const cors = require('cors');
 const pool = require('./db');
 require('dotenv').config();
 
-const app = express();
+console.log('Iniciando servidor...');
 
-app.use(cors({
-  origin: '*', // Para test rápido, después podés poner solo tu dominio front
-}));
+const app = express();
+app.use(cors());
 app.use(express.json());
 
-// Ruta ping para testear
-app.get('/ping', (req, res) => res.send('pong'));
+// Probar conexión a la base de datos al iniciar
+(async () => {
+  try {
+    const conn = await pool.getConnection();
+    console.log('Conexión a la base de datos exitosa');
+    conn.release();
+  } catch (err) {
+    console.error('Error al conectar a la base de datos:', err);
+  }
+})();
 
-// Ruta para obtener ranking
+// Ruta de prueba para saber si el servidor funciona
+app.get('/ping', (req, res) => {
+  console.log('Ruta /ping llamada');
+  res.send('pong');
+});
+
+// Rutas de ranking...
 app.get('/api/ranking', async (req, res) => {
   try {
-    const [rows] = await pool.execute('SELECT nombre, puntaje, corazones_restantes, tiempo FROM ranking ORDER BY puntaje DESC LIMIT 10');
+    const [rows] = await pool.query(
+      'SELECT nombre, puntaje, corazones_restantes, tiempo FROM ranking ORDER BY puntaje DESC LIMIT 10'
+    );
     res.json(rows);
   } catch (error) {
-    console.error(error);
+    console.error('Error al obtener ranking:', error);
     res.status(500).json({ error: 'Error al obtener ranking' });
   }
 });
 
-// Ruta para insertar ranking
 app.post('/api/ranking', async (req, res) => {
   const { nombre, puntaje, corazones_restantes, tiempo } = req.body;
-  if (!nombre || puntaje === undefined) return res.status(400).json({ error: 'Faltan datos' });
+
+  if (!nombre || puntaje === undefined) {
+    return res.status(400).json({ error: 'Faltan datos requeridos' });
+  }
+
   try {
-    await pool.execute('INSERT INTO ranking (nombre, puntaje, corazones_restantes, tiempo) VALUES (?, ?, ?, ?)', [nombre, puntaje, corazones_restantes, tiempo]);
+    await pool.execute(
+      'INSERT INTO ranking (nombre, puntaje, corazones_restantes, tiempo) VALUES (?, ?, ?, ?)',
+      [nombre, puntaje, corazones_restantes, tiempo]
+    );
     res.json({ message: 'Puntaje guardado correctamente' });
   } catch (error) {
-    console.error(error);
+    console.error('Error al guardar puntaje:', error);
     res.status(500).json({ error: 'Error al guardar puntaje' });
   }
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en puerto ${PORT}`);
+});
