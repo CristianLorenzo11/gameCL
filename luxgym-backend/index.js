@@ -4,7 +4,9 @@ const pool = require('./db');
 require('dotenv').config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'https://cristianlorenzo11.github.io'
+}));
 app.use(express.json());
 
 // Ruta para guardar puntaje
@@ -58,3 +60,10 @@ app.get('/api/test-insert', async (req, res) => {
     res.status(500).json({ error: 'Error al insertar en la base de datos' });
   }
 });
+
+console.log('DB_HOST:', process.env.DB_HOST);
+console.log('DB_PORT:', process.env.DB_PORT);
+console.log('DB_USER:', process.env.DB_USER);
+console.log('DB_NAME:', process.env.DB_NAME);
+
+app.get('/ping', (req, res) => res.send('pong'));
