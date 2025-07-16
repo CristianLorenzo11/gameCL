@@ -7,6 +7,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Probar conexión a la DB apenas arranca
+pool.query('SELECT 1')
+  .then(() => console.log('✅ Conectado a la base de datos Railway'))
+  .catch(err => console.error('❌ Error al conectar con Railway:', err));
+
 // Ruta para guardar puntaje
 app.post('/api/ranking', async (req, res) => {
   const { nombre, puntaje, corazones_restantes, tiempo } = req.body;
@@ -44,7 +49,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
-
-pool.getConnection()
-  .then(() => console.log(`✅ Conectado a la base local: ${process.env.DB_NAME}`))
-  .catch(err => console.error('❌ Error al conectar a la base local:', err));
