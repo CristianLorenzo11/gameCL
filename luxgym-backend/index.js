@@ -9,6 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+<<<<<<< HEAD
 // Probar conexión a la base de datos al iniciar
 (async () => {
   try {
@@ -39,6 +40,9 @@ app.get('/api/ranking', async (req, res) => {
   }
 });
 
+=======
+// Ruta para guardar puntaje
+>>>>>>> parent of 4a307de (,)
 app.post('/api/ranking', async (req, res) => {
   const { nombre, puntaje, corazones_restantes, tiempo } = req.body;
 
@@ -62,3 +66,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en puerto ${PORT}`);
 });
+
+pool.getConnection()
+  .then(() => console.log(`✅ Conectado a la base local: ${process.env.DB_NAME}`))
+  .catch(err => console.error('❌ Error al conectar a la base local:', err));
