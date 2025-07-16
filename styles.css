@@ -23,7 +23,7 @@ body {
 }
 
 .info {
-    margin-bottom: 20px;
+    
     font-size: 1.5rem;
     color: #333;
 }
@@ -88,6 +88,7 @@ img {
 
 .corazon {
     padding-top: 10px;
+     margin: 0; /* Esto elimina todo margen */
     width: 40px;
     height: auto;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
